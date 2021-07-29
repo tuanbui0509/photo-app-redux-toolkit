@@ -5,7 +5,7 @@ import './RandomPhoto.scss';
 
 const getRandomImageUrl = () => {
     const randomId = Math.trunc(Math.random() * 2000);
-    return `https://picsum.photos/id/${randomId}/300/300`;
+    return `https://picsum.photos/200/300?random=${randomId} `;
 }
 function RandomPhoto(props) {
     const { name, imageUrl, onImageUrlChange, onRandomButtonBlur } = props;

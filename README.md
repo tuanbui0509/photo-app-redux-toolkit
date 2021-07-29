@@ -83,3 +83,6 @@ RandomPhoto
 - onImageUrlChange
 - onRandomButtonBlur
 - RandomPhotoField
+
+## FormFeedback
+- Đứng trước nó phải có class is-invalid hoặc invalid={}
