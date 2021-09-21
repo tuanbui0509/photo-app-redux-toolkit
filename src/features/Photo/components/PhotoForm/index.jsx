@@ -4,22 +4,18 @@ import RandomPhotoField from 'custom-fields/RandomPhotoField';
 import SelectField from 'custom-fields/SelectField';
 import { FastField, Form, Formik } from 'formik';
 import React from 'react';
-import { Button, FormGroup } from 'reactstrap';
+import { Button, FormGroup, Spinner } from 'reactstrap';
 import * as Yup from 'yup';
 function PhotoForm(props) {
-    const initialValues = {
-        title: '',
-        categoryId: null,
-        photo: ''
-    }
+    const { initialValues, isAddMode } = props;
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().required('This field is required'),
 
         categoryId: Yup.number().required('This field is required').nullable(),
 
-        photo: Yup.string().when('categoryId',{
-            is: 1, 
+        photo: Yup.string().when('categoryId', {
+            is: 1,
             then: Yup.string().required('This field is required'),
             otherwise: Yup.string().notRequired()
         })
@@ -29,13 +25,13 @@ function PhotoForm(props) {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={values => console.log('Submit: ', values)}
-            
-            >
+            onSubmit={props.onSubmit}
+
+        >
             {formikProps => {
                 // do something here ...
-                const { values, errors, touched } = formikProps
-                console.log({ values, errors, touched })
+                const { values, errors, touched, isSubmitting } = formikProps
+                {/* console.log({ values, errors, touched }) */ }
                 return (
                     <Form>
                         <FastField
@@ -63,7 +59,10 @@ function PhotoForm(props) {
                             label="Photo"
                         />
                         <FormGroup>
-                            <Button type="submit" color="primary">Add to album</Button>
+                            <Button type="submit" color={isAddMode ? 'primary' : 'success'}>
+                                {isSubmitting && <Spinner size="sm" />}
+                                {isAddMode ? 'Add to album' : 'Update your photo'}
+                            </Button>
                         </FormGroup>
                     </Form>
                 )
